@@ -100,7 +100,7 @@ int main() {
 		Mat hsv;
 
 		cvtColor(frame, hsv, COLOR_RGB2HSV);
-		////imshow("test", frame);
+		imshow("test", frame);
 		std::cout << "start" << std::endl;
 		if (waitKey(1) == 27)
 		{
@@ -140,7 +140,7 @@ int main() {
 			dilate(binaryImage, erosion_dst, element);
 
 			GaussianBlur(erosion_dst, erosion_dst, Size(5,5), 0);
-			//imshow(range.name, erosion_dst * 255);
+			imshow(range.name, erosion_dst * 255);
 			Mat binary16S;
 			Mat binary16SShow;
 			erosion_dst.convertTo(binary16S, CV_16S);
