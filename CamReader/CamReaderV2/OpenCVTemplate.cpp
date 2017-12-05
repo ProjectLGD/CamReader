@@ -6,6 +6,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <cmath>
+#include <string>
+
 
 using namespace std;
 using namespace cv;
@@ -16,20 +18,20 @@ struct HSV {
 	int V;
 };
 struct HSVRANGE {
-	std::string name;
+	string name;
 	HSV min;
 	HSV max;
 };
 
 struct DOT {
-	std::string color;
+	string color;
 	Point pt;
 };
 
 
 
 int main() {
-	VideoCapture cap(1);
+	VideoCapture cap(0);
 
 	
 	if (!cap.isOpened())
@@ -48,8 +50,8 @@ int main() {
 	///SCHERM BLAUW
 	HSV hsvstructBlueMin;
 	hsvstructBlueMin.H = 0;
-	hsvstructBlueMin.S = 230;
-	hsvstructBlueMin.V = 253;
+	hsvstructBlueMin.S = 200;
+	hsvstructBlueMin.V = 200;
 	// 6 238 255
 	HSV hsvstructBlueMax;
 	hsvstructBlueMax.H = 20;
@@ -59,8 +61,8 @@ int main() {
 	///ROOD
 	HSV hsvstructRedMin;
 	hsvstructRedMin.H = 110;
-	hsvstructRedMin.S = 215;
-	hsvstructRedMin.V = 253;
+	hsvstructRedMin.S = 175;
+	hsvstructRedMin.V = 175;
 	/// 115 221 255
 	HSV hsvstructRedMax;
 	hsvstructRedMax.H = 125;
@@ -100,7 +102,7 @@ int main() {
 		Mat hsv;
 
 		cvtColor(frame, hsv, COLOR_RGB2HSV);
-		////imshow("test", frame);
+		imshow("test", frame);
 		std::cout << "start" << std::endl;
 		if (waitKey(1) == 27)
 		{
@@ -123,7 +125,7 @@ int main() {
 
 
 			// Het tonen van grijswaarde beeld
-			////imshow("MyVideo", gray_image);
+			//imshow("MyVideo", gray_image);
 
 			Mat binaryImage;
 			Mat binaryImageShow;
@@ -140,7 +142,7 @@ int main() {
 			dilate(binaryImage, erosion_dst, element);
 
 			GaussianBlur(erosion_dst, erosion_dst, Size(5,5), 0);
-			//imshow(range.name, erosion_dst * 255);
+			imshow(range.name, erosion_dst * 255);
 			Mat binary16S;
 			Mat binary16SShow;
 			erosion_dst.convertTo(binary16S, CV_16S);
