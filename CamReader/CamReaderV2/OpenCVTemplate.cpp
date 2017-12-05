@@ -29,7 +29,7 @@ struct DOT {
 
 
 int main() {
-	VideoCapture cap(0);
+	VideoCapture cap(1);
 
 	
 	if (!cap.isOpened())
@@ -100,7 +100,7 @@ int main() {
 		Mat hsv;
 
 		cvtColor(frame, hsv, COLOR_RGB2HSV);
-		imshow("test", frame);
+		////imshow("test", frame);
 		std::cout << "start" << std::endl;
 		if (waitKey(1) == 27)
 		{
@@ -123,13 +123,13 @@ int main() {
 
 
 			// Het tonen van grijswaarde beeld
-			//imshow("MyVideo", gray_image);
+			////imshow("MyVideo", gray_image);
 
 			Mat binaryImage;
 			Mat binaryImageShow;
 			threshold(gray_image, binaryImage, 150, 1, CV_THRESH_BINARY);
 			threshold(gray_image, binaryImageShow, 200, 200, CV_THRESH_BINARY);
-			//imshow("threshold", binaryImageShow);
+			////imshow("threshold", binaryImageShow);
 			int erosion_size = 2;
 			Mat element = getStructuringElement(MORPH_RECT,
 				Size(2 * erosion_size + 1, 2 * erosion_size + 1),
@@ -139,12 +139,13 @@ int main() {
 			/// Apply the erosion operation
 			dilate(binaryImage, erosion_dst, element);
 
-			imshow(range.name, erosion_dst * 255);
+			GaussianBlur(erosion_dst, erosion_dst, Size(5,5), 0);
+			//imshow(range.name, erosion_dst * 255);
 			Mat binary16S;
 			Mat binary16SShow;
 			erosion_dst.convertTo(binary16S, CV_16S);
 			binaryImageShow.convertTo(binary16SShow, CV_8U);
-			//imshow("binary", binary16S * 255);
+			////imshow("binary", binary16S * 255);
 
 
 			Mat labeledImage2;
