@@ -5,13 +5,18 @@
 
 #pragma once
 
+#include <stdint.h>
+#if defined(__APPLE__) || defined(__linux__)
+typedef int16_t _int16; // want avans gebruikt types die niet in stdint.h zijn gedefined..
+#endif
+
 #include "targetver.h"
 
 #include <stdio.h>
-#include <tchar.h>
+//#include <tchar.h>
 
 
-#include <opencv2\opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 #include "avansvisionlib.h"
 
