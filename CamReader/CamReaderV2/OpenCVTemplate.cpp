@@ -8,6 +8,8 @@
 #include <cmath>
 #include <string>
 
+#include "genetic-algo/Vec3.h"
+
 
 using namespace std;
 using namespace cv;
@@ -31,6 +33,8 @@ struct DOT {
 
 
 int main() {
+	Vec3 reee(500,0,0);
+	cout << reee << endl;
 	VideoCapture cap(0);
 
 	

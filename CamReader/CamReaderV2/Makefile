@@ -8,14 +8,15 @@ AR=ar
 SRC_DIR=./
 OBJ_DIR=./
 
-INCLUDES=-I ./ 
-INCLUDES+=$(shell pkg-config --cflags opencv) $(shell pkg-config --cflags libavcodec)
+INC=-I ./ -I ./libs/include/
+INC+=$(shell pkg-config --cflags opencv) $(shell pkg-config --cflags libavcodec)
 
 
 LIBS=-L/usr/lib/arm-linux-gnueabihf $(shell pkg-config --libs opencv) $(shell pkg-config --libs libavcodec) $(shell pkg-config --libs libavformat)
 LIBS+=$(shell pkg-config --libs libavutil) $(shell pkg-config --libs libswscale) $(shell pkg-config --libs libavresample)
+LIBS+=-L./libs/ -lgenetic-algo
 
-LIBRARY=libgenetic-algo.a
+CXXFLAGS+=$(INC)
 
 SRC=$(shell find . -name "*.cpp")
 
@@ -32,11 +33,11 @@ debug: CFLAGS+=-O0 -g
 debug: $(EXECUTABLE)
 
 %.cpp%.o:
-	$(CC) -c -o $@ $< $(CXXFLAGS) $(INCLUDES)
+	$(CC) -c -o $@ $< $(CXXFLAGS) $(INC)
 
 # Make the executable named EXECUTABLE using CC
 $(EXECUTABLE): $(OBJ)
-	$(CC) -o $@ $(CXXFLAGS) $(OBJ) $(INCLUDES) $(LIBS)
+	$(CC) -o $@ $(CXXFLAGS) $(OBJ) $(INC) $(LIBS)
 
 # Generate the static library
 # TODO: Get this working.
