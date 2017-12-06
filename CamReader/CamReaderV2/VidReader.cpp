@@ -27,7 +27,7 @@ VidReader::VidReader()
 
 }
 
-VidReader::DOT VidReader::getDot(Mat hsv,HSVRANGE range)
+DOT VidReader::getDot(Mat hsv,HSVRANGE range)
 {
 	Mat gray_image;
 
@@ -65,13 +65,13 @@ VidReader::DOT VidReader::getDot(Mat hsv,HSVRANGE range)
 		colorPosition = Point(firstpixelVec2[0]->x, firstpixelVec2[0]->y);
 	
 	DOT foundDot;
-	foundDot.color = range.name;
+	foundDot.color = range.color;
 	foundDot.pt = colorPosition;
 	
 	return foundDot;
 }
 
-vector<VidReader::DOT> VidReader::getPositions()
+vector<DOT> VidReader::getPositions()
 {
 	VideoCapture cap(0);
 
@@ -87,12 +87,12 @@ vector<VidReader::DOT> VidReader::getPositions()
 	//Setup search range
 	vector<HSVRANGE> colors;
 	HSVRANGE red;
-	red.name = "RED";
+	red.color = DOT_TYPE::RED;
 	red.min = hsvstructRedMin;
 	red.max = hsvstructRedMax;
 
 	HSVRANGE blue;
-	blue.name = "BLUE";
+	blue.color =DOT_TYPE::BLUE;
 	blue.min = hsvstructBlueMin;
 	blue.max = hsvstructBlueMax;
 
