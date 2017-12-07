@@ -19,7 +19,7 @@ private:
     dna_gen_func gen_func = nullptr; // thefunction to use to generate random data, as inside this class, T is still unknown.
 
 public:
-    Population(T target, float mutation_rate, uint64_t population_size, dna_gen_func func) {
+    Population(T target, float mutation_rate, uint64_t population_size, uint64_t dna_size, dna_gen_func func) {
 
         this->target = target;
         this->mutation_rate = mutation_rate;
@@ -29,7 +29,7 @@ public:
         // fill population with DNA.
         // TODO: remove hardcoded value;
         // Generate random DNA, so we're generating 100 DNA<T>'s of size 100;
-        vector<DNA<T>> random_dna = dna_generate(population_size, 1);
+        vector<DNA<T>> random_dna = dna_generate(population_size, dna_size);
         for (size_t i = 0; i < random_dna.size(); i++) {
             DNA<T> dna = random_dna.at(i);
             popu.push_back(dna); // this copies the dna to popu
@@ -70,14 +70,10 @@ public:
             }
         }
 
-        // TODO: Normalize fitness from 0 to 1.
-
         // cout << "Fitness max is " << fitness_max << endl;
 
         for (size_t i = 0; i < popu.size(); i++) {
             DNA<T> *dna = &popu.at(i);
-            float fitness_current = dna->fitness_get();
-            // cout << "Current fitness " << fitness_current << endl;
 
             // So, what we're going to do next is, find the most fit DNA's fitness.
             // If the DNA is more fit, it should be added to our mating pool more often.
@@ -86,7 +82,9 @@ public:
             // So for example, a piece of DNA with a fitness of 1 should be added 10 times.
             // A piece of DNA with a fitness of 0.1 should be added only one time.
             unsigned int count = 0;
-            count = (unsigned int)(10 * (fitness_current / fitness_max));
+            dna->fitness_normalize(fitness_max);
+            float fitness_current = dna->fitness_get();
+            count = (unsigned int)(10 * fitness_current);
             // cout << "Adding fitness of " << fitness_current << "\t" << count << " times to mating_pool" << endl;
             for (size_t j = 0; j < count; j++) {
                 mating_pool.push_back(*dna);
@@ -150,6 +148,10 @@ public:
 
     vector<DNA<T>> dna_generate(uint64_t vector_amount, uint64_t dna_amount) {
         return gen_func(vector_amount, dna_amount);
+    }
+
+    vector<DNA<T>> get_dna() {
+        return popu;
     }
 
     void print() {

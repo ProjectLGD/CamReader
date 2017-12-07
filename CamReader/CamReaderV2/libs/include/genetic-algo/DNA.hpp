@@ -111,6 +111,7 @@ public:
     void fitness_calculate(T target) {
         // NOTE: Make sure that fitness_calculate always returns a float > 0.
 
+        // TODO: Don't loop through every single gene, but check only 1 gene for a given frame.
         float distance_max;
         float distance_min;
 
@@ -120,19 +121,13 @@ public:
             distance_min = genes.at(0).get_distance(target);
             for (size_t i = 1; i < genes.size(); i++) {
                 T current = genes.at(i);
-                // We can not use abs() because T is not guaranteed to be float or int etc.
-                T distance_current;
-                // Work around abs() not supporting much more than default datatypes.
-                if (current > target) {
-                    distance_current = current - target;
-                } else {
-                    distance_current = target - current;
+                float distance_of_gene = current.get_distance(target);
+
+                if (distance_of_gene > distance_max) {
+                    distance_max = distance_of_gene;
                 }
-                if (distance_current.get_distance(target) > distance_max) {
-                    distance_max = distance_current.get_distance(target);
-                }
-                if (distance_current.get_distance(target) < distance_min) {
-                    distance_min = distance_current.get_distance(target);
+                if (distance_of_gene < distance_min) {
+                    distance_min = distance_of_gene;
                 }
             }
         } else if (genes.size() == 1) {
@@ -161,6 +156,10 @@ public:
         // cerr << "Kill me" << endl;
         // cout << fitness << endl;
         // exit(1);
+    }
+
+    void fitness_normalize(float fitness_max) {
+        fitness /= fitness_max;
     }
 
     float fitness_get() {

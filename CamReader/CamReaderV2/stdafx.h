@@ -10,8 +10,6 @@
 typedef int16_t _int16; // want avans gebruikt types die niet in stdint.h zijn gedefined..
 #endif
 
-#include "targetver.h"
-
 #include <stdio.h>
 //#include <tchar.h>
 

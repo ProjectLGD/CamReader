@@ -408,7 +408,7 @@ bool findNextBlob(Mat admin, int & row, int & col) {
 		col = -1;
 	}
 	return found;
-}; // findNextBlob
+} // findNextBlob
 
 // func: gets the entry of a neighbour pixel with relative position nr. 
 //       Definition of relative positions nr:
@@ -426,6 +426,7 @@ _int16 getEntryNeighbour(const Mat & admin , int x, int y, int nr) {
 	case 6: return getEntryImage(admin, x,     y - 1); break;
 	case 7: return getEntryImage(admin, x - 1, y - 1); break;
 	default: cout << "ERROR getEntryNeighbour " << endl;
+		 return -1;
 	}
 } // getEntryNeighbour
 
