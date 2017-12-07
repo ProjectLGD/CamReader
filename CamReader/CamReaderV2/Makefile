@@ -33,7 +33,7 @@ debug: CFLAGS+=-O0 -g
 debug: $(EXECUTABLE)
 
 %.cpp%.o:
-	$(CC) -c -o $@ $< $(CXXFLAGS) $(INC)
+	$(CC) -c -o $@ $< $(CXXFLAGS)
 
 # Make the executable named EXECUTABLE using CC
 $(EXECUTABLE): $(OBJ)
