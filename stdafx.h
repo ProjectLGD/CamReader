@@ -22,10 +22,11 @@ using namespace std;
 
 #include "avansvisionlib.h"
 
-#include "genetic-algo/DNA.hpp"
-#include "genetic-algo/Population.hpp"
-#include "genetic-algo/Vec3.h"
-#include "genetic-algo/Citizen.hpp"
+
+#include "DNA.hpp"
+#include "Population.hpp"
+#include "Vec3.h"
+#include "Citizen.hpp"
 
 #include "dot.h"
 #include "Rocket.h" // need to know about DNA
