@@ -306,3 +306,4 @@ OpenCover/
 
 **/*.o
 *.a
+CamReader
