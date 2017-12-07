@@ -307,3 +307,5 @@ OpenCover/
 **/*.o
 *.a
 CamReader
+
+libs/*
