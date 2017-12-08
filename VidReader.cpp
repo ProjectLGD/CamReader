@@ -24,7 +24,7 @@ VidReader::VidReader()
 	hsvstructRedMax.V = 255;
 
 	cap = new VideoCapture(1);
-
+	//waitKey(500);
 	if (!cap->isOpened())
 		cout << "Cannot open the video cam" << endl;
 
@@ -71,7 +71,7 @@ DOT VidReader::getDot(Mat hsv,HSVRANGE range)
 
 	Point colorPosition;
 	if (posVec2.size() != 0)
-		colorPosition = Point(firstpixelVec2[0]->x, firstpixelVec2[0]->y);
+		colorPosition = Point(firstpixelVec2[0]->y, firstpixelVec2[0]->x);
 	
 	DOT foundDot;
 	foundDot.color = range.color;
@@ -123,6 +123,7 @@ vector<DOT> VidReader::getPositions(Mat &snapshot)
 	for (HSVRANGE range : colors)
 		positions.push_back(getDot(hsv, range));
 
+	std::cout << "position size:" << positions.size() << std::endl;
 
 	return positions;
 

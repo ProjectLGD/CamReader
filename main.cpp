@@ -32,11 +32,6 @@ int main(int argc, char** argv) {
     cout << endl;
     srand((unsigned)time(nullptr));
 
-    unsigned int to_run = 100;
-
-    unsigned int size = 25;
-    unsigned int dna_size = 500;
-
     cout << boolalpha; // remember this one
 
     cout << "How often should we run?" << endl;
@@ -45,23 +40,34 @@ int main(int argc, char** argv) {
 	while (true)
 	{
 		Mat snapshot;
-		// vector<DOT> pos = reader.getPositions(snapshot);
+		vector<DOT> pos;
+		while (true)
+		{
+			pos = reader.getPositions(snapshot);
+			
+			imshow("snapslet", snapshot);
+			waitKey(1);
 
-        Singleton<Mat>::getInstance() = Mat::zeros(640, 480, CV_8UC3);
+			if (pos[0].pt != pos[1].pt)
+				break;
+		}
+		
+		Singleton<Mat>::getInstance() = snapshot.clone();
 
 		DOT red;
     	DOT blue;
-        red.pt = Point(100, 200);
-        blue.pt = Point(50, 50);
+       // red.pt = Point(100, 200);
+       // blue.pt = Point(50, 50);
+		
 
-		// for (DOT d : pos)
-		// {
-		// 	std::cout << "Point " << d.pt.x << "-" << d.pt.y << " " << d.color << std::endl;
-		// 	if (d.color == RED)
-		// 		red = d;
-		// 	else
-		// 		blue = d;
-		// }
+		 for (DOT d : pos)
+		 {
+		 	std::cout << "Point " << d.pt.x << "-" << d.pt.y << " " << d.color << std::endl;
+		 	if (d.color == RED)
+		 		red = d;
+		 	else
+		 		blue = d;
+		 }
 
 		Vec3 bluev(blue.pt.x, blue.pt.y, 0);
 		Vec3 redv(red.pt.x , red.pt.y , 0);
@@ -69,6 +75,12 @@ int main(int argc, char** argv) {
 		cout << "Red and blue" << endl;
 		cout << redv << "\t" << bluev << endl;
 
+		unsigned int to_run = 30;
+
+		unsigned int size = 25;
+		float delta = bluev.get_distance(redv);
+		unsigned int dna_size = (delta/max_x)*3;
+		cout << "DNA size is " << dna_size << " pixel distance is " << delta << endl;
 		Population<Vec3, Rocket> pop(redv, bluev, 0.001f, size, dna_size, generate_data);
 		cout << "Iterating "<< to_run <<" times to evolve population" << endl;
 		char temp;
@@ -87,10 +99,11 @@ int main(int argc, char** argv) {
             rectangle(Singleton<Mat>::getInstance(), r2, Scalar(0, 0, 255, 255), CV_FILLED);
 
             imshow("Running", Singleton<Mat>::getInstance());
-            waitKey(250);
+            waitKey(500);
 
 		    // cin >> temp;
-            Singleton<Mat>::getInstance() = Mat::zeros(640, 480, CV_8UC3);
+           // Singleton<Mat>::getInstance() = Mat::zeros(640, 480, CV_8UC3);
+			Singleton<Mat>::getInstance() = snapshot.clone();
 
 		}
         cin >> temp;
