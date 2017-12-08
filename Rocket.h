@@ -12,6 +12,7 @@ public:
     unsigned int steps_taken = 0;
 
     Rocket(DNA<Vec3> dna);
+	Rocket(DNA<Vec3> dna, Vec3 start_pos);
     ~Rocket();
 
     void run(Vec3 target, unsigned int current_dna);

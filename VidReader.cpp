@@ -23,6 +23,15 @@ VidReader::VidReader()
 	hsvstructRedMax.S = 230;
 	hsvstructRedMax.V = 255;
 
+	cap = new VideoCapture(1);
+
+	if (!cap->isOpened())
+		cout << "Cannot open the video cam" << endl;
+
+	double dWidth = cap->get(CV_CAP_PROP_FRAME_WIDTH);
+	double dHeight = cap->get(CV_CAP_PROP_FRAME_HEIGHT);
+	cout << "Frame size : " << dWidth << " x " << dHeight << endl;
+
 
 
 }
@@ -71,16 +80,9 @@ DOT VidReader::getDot(Mat hsv,HSVRANGE range)
 	return foundDot;
 }
 
-vector<DOT> VidReader::getPositions()
+vector<DOT> VidReader::getPositions(Mat &snapshot)
 {
-	VideoCapture cap(0);
-
-	if (!cap.isOpened())
-		cout << "Cannot open the video cam" << endl;
-
-	double dWidth = cap.get(CV_CAP_PROP_FRAME_WIDTH);
-	double dHeight = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
-	cout << "Frame size : " << dWidth << " x " << dHeight << endl;
+	
 
 	Mat frame;
 
@@ -100,8 +102,8 @@ vector<DOT> VidReader::getPositions()
 	colors.push_back(blue);
 
 
-	bool bSuccess = cap.read(frame);
-
+	bool bSuccess = cap->read(frame);
+	snapshot = frame;
 
 	if (!bSuccess)
 		cout << "Cannot read a frame from video stream" << endl;		

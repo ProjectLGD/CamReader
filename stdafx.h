@@ -29,6 +29,8 @@ using namespace std;
 #include "Citizen.hpp"
 
 #include "dot.h"
+#include "VidReader.h"
+#include "Singleton.hpp"
 #include "Rocket.h" // need to know about DNA
 
 

@@ -27,9 +27,11 @@ private:
 
 	DOT getDot(Mat hsv,HSVRANGE range);
 
+	VideoCapture *cap;
+
 public:
 	VidReader();
-	vector<DOT> getPositions();
+	vector<DOT> getPositions(Mat& snapshot);
 	~VidReader();
 };
 

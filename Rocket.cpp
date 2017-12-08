@@ -4,6 +4,10 @@ Rocket::Rocket(DNA<Vec3> dna) : Citizen<Vec3>(dna){
     this->pos = Vec3(0,0,0);
 }
 
+Rocket::Rocket(DNA<Vec3> dna, Vec3 start_pos) : Citizen<Vec3>(dna){
+	this->pos = start_pos;
+}
+
 Rocket::~Rocket() {
 
 }
@@ -56,6 +60,12 @@ void Rocket::run(Vec3 target, unsigned int current_dna) {
     // cout << "Ended up at " << pos << endl;
     // cout << "----" << endl;
     // cout << "Final pos --------" << pos << endl;
+
+	Rect r(Point(pos.x - 2, pos.y - 2), Point(pos.x + 2, pos.y + 2));
+	rectangle(Singleton<Mat>::getInstance(), r, Scalar(200, 0, 0), CV_FILLED);
+	imshow("Running", Singleton<Mat>::getInstance());
+	waitKey(1);
+
 }
 
 
