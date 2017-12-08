@@ -31,27 +31,35 @@ float Rocket::fitness_calculate(Vec3 target) {
     // cout << "Current pos " << pos << endl;
     // cout << "Target " << target << endl;
     // cout << "Distance in rocket to t is " << distance << endl;
-    fitness = 1.0f / (distance+1);
+    fitness = 0.8f * (1.0f / (distance+1)) + 0.2f * (1.0f / (steps_taken+1));
     return fitness;
 }
 
-void Rocket::run(Vec3 target) {
+void Rocket::run(Vec3 target, unsigned int current_dna) {
     // move according to the Vec3's in DNA.
-    (void) target;
     vector<Vec3> genes = dna.gene_get();
     // cout << "Startpos is " << pos << endl;
     // cout << "[---------------]" << endl;
-    for (size_t i = 0; i < genes.size(); i++) {
-        // cout << "Adding " << genes.at(i) << " to current " << pos << endl;
-        pos = pos + genes.at(i);
-        // cout << "Ended up at " << pos << endl;
-        // cout << "----" << endl;
+    // cout << "Adding " << genes.at(i) << " to current " << pos << endl;
+    if (!reached && !failed) {
+        // cout << "Adding pos" << endl;
+        pos = pos + genes.at(current_dna);
+        steps_taken = current_dna;
+        if (pos.get_distance(target) < 5) { // if withing 5 pixels.
+            reached = true;
+            // cout << "Rocket reached target pos at " << pos << " in " << steps_taken << " steps" << endl;
+        }
+        // TODO: add checks for failed.
+    } else {
+        // rocket has either reached target or failed in doing so.
     }
+    // cout << "Ended up at " << pos << endl;
+    // cout << "----" << endl;
     // cout << "Final pos --------" << pos << endl;
 }
 
 
 ostream& operator<< (ostream & out, const Rocket &data) {
-    out << "Rocket " << data.pos << flush;
+    out << "Rocket " << data.pos << " steps " << data.steps_taken << flush;
     return out;
 }

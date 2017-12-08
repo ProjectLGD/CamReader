@@ -9,10 +9,12 @@ public:
     bool reached = false;
     bool failed = false;
 
+    unsigned int steps_taken = 0;
+
     Rocket(DNA<Vec3> dna);
     ~Rocket();
 
-    void run(Vec3 target);
+    void run(Vec3 target, unsigned int current_dna);
     float fitness_calculate(Vec3 target);
 
 
