@@ -8,7 +8,7 @@ AR=ar
 SRC_DIR=./
 OBJ_DIR=./
 
-INC=-I ./ -I ./libs/include/
+INC=-I ./ -I ./libs/include/genetic-algo
 INC+=$(shell pkg-config --cflags opencv) $(shell pkg-config --cflags libavcodec)
 
 
