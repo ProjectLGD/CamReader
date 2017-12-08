@@ -1,15 +1,12 @@
 #include "Rocket.h"
 
-Rocket::Rocket(DNA<Vec3> dna) : Citizen<Vec3>(dna){
-    this->pos = Vec3(0,0,0);
+Rocket::Rocket(DNA<Vec3> dna) : Citizen<Vec3>(dna, Vec3(0,0,0)){
 }
 
-Rocket::Rocket(DNA<Vec3> dna, Vec3 start_pos) : Citizen<Vec3>(dna){
-	this->pos = start_pos;
+Rocket::Rocket(DNA<Vec3> dna, Vec3 start_pos) : Citizen<Vec3>(dna, start_pos){
 }
 
 Rocket::~Rocket() {
-
 }
 
 // void Rocket::update(Vec3 target, unsigned int current_dna) {
@@ -31,7 +28,7 @@ Rocket::~Rocket() {
 // }
 
 float Rocket::fitness_calculate(Vec3 target) {
-    float distance = pos.get_distance(target);
+    float distance = start.get_distance(target);
     // cout << "Current pos " << pos << endl;
     // cout << "Target " << target << endl;
     // cout << "Distance in rocket to t is " << distance << endl;
@@ -47,9 +44,9 @@ void Rocket::run(Vec3 target, unsigned int current_dna) {
     // cout << "Adding " << genes.at(i) << " to current " << pos << endl;
     if (!reached && !failed) {
         // cout << "Adding pos" << endl;
-        pos = pos + genes.at(current_dna);
+        start = start + genes.at(current_dna);
         steps_taken = current_dna;
-        if (pos.get_distance(target) < 5) { // if withing 5 pixels.
+        if (start.get_distance(target) < 5) { // if withing 5 pixels.
             reached = true;
             // cout << "Rocket reached target pos at " << pos << " in " << steps_taken << " steps" << endl;
         }
@@ -60,16 +57,18 @@ void Rocket::run(Vec3 target, unsigned int current_dna) {
     // cout << "Ended up at " << pos << endl;
     // cout << "----" << endl;
     // cout << "Final pos --------" << pos << endl;
-
-	Rect r(Point(pos.x - 2, pos.y - 2), Point(pos.x + 2, pos.y + 2));
-	rectangle(Singleton<Mat>::getInstance(), r, Scalar(200, 0, 0), CV_FILLED);
-	imshow("Running", Singleton<Mat>::getInstance());
-	waitKey(1);
-
+    if (current_dna == 499) {
+        // cout << "Drawing" << endl;
+        Rect r(Point(start.x - 2, start.y - 2), Point(start.x + 2, start.y + 2));
+        // cout << r << endl;
+        rectangle(Singleton<Mat>::getInstance(), r, Scalar(0, 255, 0), CV_FILLED);
+        imshow("Running", Singleton<Mat>::getInstance());
+        // waitKey(1);
+    }
 }
 
 
 ostream& operator<< (ostream & out, const Rocket &data) {
-    out << "Rocket " << data.pos << " steps " << data.steps_taken << flush;
+    out << "Rocket " << data.start << " steps " << data.steps_taken << flush;
     return out;
 }

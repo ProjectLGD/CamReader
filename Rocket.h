@@ -4,8 +4,6 @@
 
 class Rocket : public Citizen<Vec3> {
 public:
-    Vec3 pos;
-
     bool reached = false;
     bool failed = false;
 
