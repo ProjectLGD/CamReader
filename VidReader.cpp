@@ -23,7 +23,7 @@ VidReader::VidReader()
 	hsvstructRedMax.S = 230;
 	hsvstructRedMax.V = 255;
 
-	cap = new VideoCapture(1);
+	cap = new VideoCapture(0);
 	//waitKey(500);
 	if (!cap->isOpened())
 		cout << "Cannot open the video cam" << endl;

@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 		{
 			pos = reader.getPositions(snapshot);
 			
-			imshow("snapslet", snapshot);
+			imshow("Snapshot", snapshot);
 			waitKey(1);
 
 			if (pos[0].pt != pos[1].pt)
@@ -106,12 +106,13 @@ int main(int argc, char** argv) {
 			Singleton<Mat>::getInstance() = snapshot.clone();
 
 		}
-        cin >> temp;
+        //cin >> temp
 		cout << endl;
 
 		// pop.compute_most_fit().print();
 
 		pop.print();
+		pos.clear();
 
 
 	}
