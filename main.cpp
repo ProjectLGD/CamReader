@@ -44,30 +44,30 @@ int main(int argc, char** argv) {
 		while (true)
 		{
 			pos = reader.getPositions(snapshot);
-			
+
 			imshow("Snapshot", snapshot);
 			waitKey(1);
 
 			if (pos[0].pt != pos[1].pt)
 				break;
 		}
-		
-		Singleton<Mat>::getInstance() = snapshot.clone();
 
-		DOT red;
-    	DOT blue;
-       // red.pt = Point(100, 200);
-       // blue.pt = Point(50, 50);
-		
+        Singleton<Mat>::getInstance() = snapshot.clone();
 
-		 for (DOT d : pos)
-		 {
-		 	std::cout << "Point " << d.pt.x << "-" << d.pt.y << " " << d.color << std::endl;
-		 	if (d.color == RED)
-		 		red = d;
-		 	else
-		 		blue = d;
-		 }
+        DOT red;
+        DOT blue;
+        // red.pt = Point(100, 200);
+        // blue.pt = Point(50, 50);
+
+
+        for (DOT d : pos)
+        {
+            std::cout << "Point " << d.pt.x << "-" << d.pt.y << " " << d.color << std::endl;
+            if (d.color == RED)
+                red = d;
+            else
+                blue = d;
+        }
 
 		Vec3 bluev(blue.pt.x, blue.pt.y, 0);
 		Vec3 redv(red.pt.x , red.pt.y , 0);
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
 		cout << "DNA size is " << dna_size << " pixel distance is " << delta << endl;
 		Population<Vec3, Rocket> pop(redv, bluev, 0.001f, size, dna_size, generate_data);
 		cout << "Iterating "<< to_run <<" times to evolve population" << endl;
-		char temp;
+		// char temp;
 
 		for (size_t count = 1; count <= to_run; count++) {
 		    cout << "\r";
@@ -118,42 +118,6 @@ int main(int argc, char** argv) {
 	}
 
 	cout << Singleton<Mat>::getInstance() << endl;
-
-
-    //// TODO: Get these from camera.
-    //DOT red;
-    //red.color = RED;
-    //red.pt = Point(121, 248);
-
-    //DOT blue;
-    //blue.color = BLUE;
-    //blue.pt = Point(50, 100);
-
-    //Vec3 bluev(blue.pt.x, blue.pt.y, 0);
-    //Vec3 redv(red.pt.x - bluev.x, red.pt.y - bluev.y, 0);
-
-    //cout << "Red and blue" << endl;
-    //cout << redv << "\t" << bluev << endl;
-
-    //Population<Vec3, Rocket> pop(redv, 0.01f, size, dna_size, generate_data);
-    //cout << "Iterating "<< to_run <<" times to evolve population" << endl;
-    //char temp;
-
-    //for (size_t count = 1; count <= to_run; count++) {
-    //    cout << "\r";
-    //    cout << "Population " << count << flush;
-    //    // continue on with the next generation.
-    //    pop.fitness_calculate();
-    //    pop.natural_selection();
-    //    pop.compute_most_fit();
-    //    pop.generate(); // generates an entirely new population without any fitness.
-    //    cin >> temp;
-    //}
-    //cout << endl;
-
-    //// pop.compute_most_fit().print();
-
-    //pop.print();
 
     return EXIT_OK;
 }
