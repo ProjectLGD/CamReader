@@ -22,7 +22,6 @@ using namespace std;
 
 #include "avansvisionlib.h"
 
-
 #include "DNA.hpp"
 #include "Population.hpp"
 #include "Vec3.h"

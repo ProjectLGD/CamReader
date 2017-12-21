@@ -71,6 +71,6 @@ void Rocket::run(Vec3 target, unsigned int current_dna) {
 
 
 ostream& operator<< (ostream & out, const Rocket &data) {
-    out << "Rocket " << data.start << " steps " << data.steps_taken << flush;
+    out << "Citizen " << data.start << " steps " << data.steps_taken << flush;
     return out;
 }
