@@ -1,5 +1,5 @@
 
-CC=g++
+CXX=g++
 CFLAGS=-pedantic -Wextra -Wall
 CXXFLAGS=$(CFLAGS) -std=c++11
 
@@ -33,11 +33,11 @@ debug: CFLAGS+=-O0 -g
 debug: $(EXECUTABLE)
 
 %.cpp%.o:
-	$(CC) -c -o $@ $< $(CXXFLAGS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
 # Make the executable named EXECUTABLE using CC
 $(EXECUTABLE): $(OBJ)
-	$(CC) -o $@ $(CXXFLAGS) $(OBJ) $(INC) $(LIBS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJ) $(INC) $(LIBS)
 
 # Generate the static library
 # TODO: Get this working.
