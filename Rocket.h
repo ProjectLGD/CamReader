@@ -4,7 +4,6 @@
 
 class Rocket : public Citizen<Vec3> {
 public:
-    bool reached = false;
     bool failed = false;
 
     unsigned int steps_taken = 0;

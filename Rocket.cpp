@@ -11,23 +11,6 @@ Rocket::Rocket(DNA<Vec3> dna, Vec3 start_pos) : Citizen<Vec3>(dna, start_pos){
 Rocket::~Rocket() {
 }
 
-// void Rocket::update(Vec3 target, unsigned int current_dna) {
-//     cout << "update rocket" << endl;
-//     Vec3 current_gene = dna.gene_get().at(current_dna);
-//     // TODO: add more checks.
-//
-//     // check if we have reached the target.
-//     if (!failed && !reached) {
-//         if (pos.get_distance(target) < 5) {
-//             // we're there!
-//             cout << "Rocket reached target at pos " << pos << endl;
-//             reached = true;
-//         } else {
-//             // apply current_gene to our pos.
-//             pos = pos + current_gene;
-//         }
-//     }
-// }
 
 float Rocket::fitness_calculate(Vec3 target) {
     float distance = start.get_distance(target);
@@ -44,12 +27,12 @@ void Rocket::run(Vec3 target, unsigned int current_dna) {
     // cout << "Startpos is " << pos << endl;
     // cout << "[---------------]" << endl;
     // cout << "Adding " << genes.at(i) << " to current " << pos << endl;
-    if (!reached && !failed) {
+    if (!done && !failed) {
         // cout << "Adding pos" << endl;
         start = start + genes.at(current_dna);
         steps_taken = current_dna;
         if (start.get_distance(target) < 5) { // if withing 5 pixels.
-            reached = true;
+            done = true;
             // cout << "Rocket reached target pos at " << pos << " in " << steps_taken << " steps" << endl;
         }
         // TODO: add checks for failed.

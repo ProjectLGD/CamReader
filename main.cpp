@@ -88,21 +88,28 @@ int main(int argc, char** argv) {
 		// char temp;
 
 		for (size_t count = 1; count <= to_run; count++) {
-		    // cout << "\r";
-		    cout << "Population " << count << endl;
+		    cout << "\r";
+		    cout << "Population " << count << flush;
 		    // continue on with the next generation.
 		    pop.fitness_calculate();
 		    pop.natural_selection();
-		    pop.compute_most_fit();
+		    Rocket rocket = pop.compute_most_fit();
 		    pop.generate(); // generates an entirely new population without any fitness.
+
             Rect r(Point(bluev.x - 2, bluev.y - 2), Point(bluev.x + 2, bluev.y + 2));
             rectangle(Singleton<Mat>::getInstance(), r, Scalar(255, 0, 0, 255), CV_FILLED);
             Rect r2(Point(redv.x - 2, redv.y - 2), Point(redv.x + 2, redv.y + 2));
             rectangle(Singleton<Mat>::getInstance(), r2, Scalar(0, 0, 255, 255), CV_FILLED);
-
             imshow("Running", Singleton<Mat>::getInstance());
-            waitKey(500);
 
+            if (pop.is_finished()) {
+                cout << endl;
+                cout << "Population finished." << endl;
+                cout << "Most fit Citizen is " << rocket << endl;
+                break;
+            }
+
+            waitKey(500);
 		    // cin >> temp;
            // Singleton<Mat>::getInstance() = Mat::zeros(640, 480, CV_8UC3);
 			Singleton<Mat>::getInstance() = snapshot.clone();
@@ -110,12 +117,7 @@ int main(int argc, char** argv) {
 		}
         //cin >> temp
 		cout << endl;
-
-		// pop.compute_most_fit().print();
-
 		pop.print();
-		// pos.clear();
-
 
 	}
 
