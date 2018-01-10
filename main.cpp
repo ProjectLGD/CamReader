@@ -26,6 +26,23 @@ vector<Rocket> generate_data(uint64_t vector_size, uint64_t dna_size) {
     return vec;
 }
 
+void plot_rocket_path(Rocket &rock, Vec3 &bluev, Vec3 &redv, Mat &snapshot) {
+    Singleton<Mat>::getInstance() = snapshot.clone();
+    Rect r(Point(bluev.x - 2, bluev.y - 2), Point(bluev.x + 2, bluev.y + 2));
+    rectangle(Singleton<Mat>::getInstance(), r, Scalar(255, 0, 0, 255), CV_FILLED);
+    Rect r2(Point(redv.x - 2, redv.y - 2), Point(redv.x + 2, redv.y + 2));
+    rectangle(Singleton<Mat>::getInstance(), r2, Scalar(0, 0, 255, 255), CV_FILLED);
+    imshow("Running", Singleton<Mat>::getInstance());
+    for (size_t i = 0; i < rock.dna.gene_size(); i++) {
+        rock.run(bluev, i);
+        cout << "Drawing at " << rock.start << endl;
+        Rect re(Point(rock.start.x - 2, rock.start.y - 2), Point(rock.start.x + 2, rock.start.y + 2));
+        rectangle(Singleton<Mat>::getInstance(), re, Scalar(255, 255, 0), CV_FILLED);
+        imshow("Running", Singleton<Mat>::getInstance());
+        waitKey(50);
+    }
+}
+
 int main(int argc, char** argv) {
     (void) argc; // unused
     (void) argv; // unused
@@ -106,6 +123,8 @@ int main(int argc, char** argv) {
                 cout << endl;
                 cout << "Population finished." << endl;
                 cout << "Most fit Citizen is " << rocket << endl;
+                Rocket r_new(rocket.dna, bluev);
+                plot_rocket_path(r_new, bluev, redv, snapshot);
                 break;
             }
 
