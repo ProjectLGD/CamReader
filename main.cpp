@@ -54,10 +54,6 @@ ENTRY make_entry(Vec3 start, Vec3 target, Rocket path) {
     return make_pair(make_pair(start, target), path);
 }
 
-void pathfind() {
-    cout << "IMPLEMENT ME " << endl;
-}
-
 int do_actual_learning(Vec3 bluev, Vec3 redv, Mat &snapshot) {
     unsigned int to_run = 30;
 
@@ -118,6 +114,65 @@ int do_actual_learning(Vec3 bluev, Vec3 redv, Mat &snapshot) {
         plot_rocket_path(r_new, bluev, redv, snapshot);
     }
     return 0;
+}
+
+void pathfind() {
+    VidReader reader;
+    while (true)
+	{
+		Mat snapshot;
+		vector<DOT> pos;
+        Point zero_pt(0,0);
+		while (true)
+		{
+			pos = reader.getPositions(snapshot);
+
+			imshow("Snapshot", snapshot);
+			waitKey(1);
+			if (pos[0].pt != zero_pt && pos[1].pt != zero_pt && pos[0].pt != pos[1].pt)
+				break;
+		}
+
+        Singleton<Mat>::getInstance() = snapshot.clone();
+
+        DOT red;
+        DOT blue;
+
+        for (DOT d : pos)
+        {
+            std::cout << "Point " << d.pt.x << "-" << d.pt.y << " " << d.color << std::endl;
+            if (d.color == RED)
+                red = d;
+            else
+                blue = d;
+        }
+
+		Vec3 bluev(blue.pt.x, blue.pt.y, 0);
+		Vec3 redv(red.pt.x , red.pt.y , 0);
+        bool found = false;
+        for (ENTRY &e : entries) {
+            Vec3 &blue_s = e.first.first;
+            Vec3 &red_s = e.first.second;
+            Rocket &r = e.second;
+            if ((bluev.get_distance(blue_s) < 5) && (redv.get_distance(red_s) < 5) && !found) { // if blue within distance and red within distance
+                found = true;
+                cout << "Found path in entries, displaying" << endl;
+                Rocket found_rocket(r.dna, bluev);
+                plot_rocket_path(found_rocket, bluev, redv, snapshot);
+                break;
+            }
+        }
+
+        if (!found) {
+            cout << "Didn't find rocket in entries, generating new entry" << endl;
+            int retval = do_actual_learning(bluev, redv, snapshot);
+            if (retval == 27) {
+                break;
+            }
+        }
+
+    }
+
 }
 
 void hardcoded_learning() {
